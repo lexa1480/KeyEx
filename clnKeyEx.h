@@ -126,11 +126,8 @@ inline bool		CClnKeyEx::Open( const char* pKeyName, bool bCreate )
 {
     bool bRes = false;
     const std::string c_strPrevPath = GetKeyPath();
-    std::cout << "6" << pKeyName << bCreate << std::endl;
     this->Close();
-    std::cout << "7"  << std::endl;
     NPLUG_RUN_IF_METHOD( bRes = ( m_pInterface->OpenKey( pKeyName, bCreate ) != 0 ) );
-    std::cout << "777777" <<  std::endl;
     m_pInterface->CloseKey();
     if (!bRes) // restore key
         NPLUG_RUN_IF_METHOD( ( m_pInterface->OpenKey( c_strPrevPath.c_str(), false ) != 0 ) );
@@ -228,16 +225,11 @@ inline CClnKeyEx		CClnKeyEx::GetSubKey( const char* pSubKeyName, bool bCreate ) 
 
 inline CClnKeyEx CClnKeyEx::GetParent() const
 {
-    std::cout << "1" << std::endl;
     CClnKeyEx parentKey(this->Clone());
     this->m_pInterface->CloseKey();
-    std::cout << "2 " << parentKey.GetKeyName() << " + " << this->GetKeyName() << std::endl;
     std::string strKeyPath = this->GetKeyPath();
-    std::cout << "3" << strKeyPath << std::endl;
     strKeyPath = strKeyPath.substr(0, strKeyPath.rfind("/"));
-    std::cout << "4" << strKeyPath << std::endl;
     parentKey.Open(strKeyPath.c_str(), false);
-    std::cout << "5" << std::endl;
     return parentKey;
 }
 /*

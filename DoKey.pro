@@ -19,6 +19,5 @@ LIBS += -lgtest
 
 HEADERS += \
     IKeyEx.h \
-    Node.h \
     clnKeyEx.h \
     conKeyEx.h
