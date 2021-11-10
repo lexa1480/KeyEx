@@ -31,7 +31,7 @@ void CheckValuesEnumeration( CClnKeyEx& key );
 bool IsNegative(int x, string val0, string val1);
 
 //////////////////////////////////////////////////////////////////
-/*
+
 void CheckKeyLifeTime( const CClnKeyEx& key )
 {
     CClnKeyEx keyLocal = key;
@@ -170,14 +170,15 @@ void CheckValuesEnumeration( CClnKeyEx& key )
 bool IsNegative(int x, string val0, string val1) {
   return (x == 2) && (val0 == c_szStrData0) && (val1 == c_szStrData1);
 }
-*/
+
+
 TEST(TestCaseCheckKey, AllTestKey){
-    //CClnKeyEx key( CConKeyEx::CreateObj() );
-    //CheckKeyLifeTime( key );
-    //CheckKeyInit( key );
-    //CheckKey( key );
-    //CheckValuesInit( key );
-    //CheckValues( key );
+    CClnKeyEx key( CConKeyEx::CreateObj() );
+    CheckKeyLifeTime( key );
+    CheckKeyInit( key );
+    CheckKey( key );
+    CheckValuesInit( key );
+    CheckValues( key );
 }
 
 #include <nplug/clnMap.h>
@@ -186,12 +187,7 @@ int main(int argc, char *argv[])
 {
     testing::InitGoogleTest(&argc, argv);
 
-
-
-
-
-
-    return 0;//RUN_ALL_TESTS()
+    return RUN_ALL_TESTS();
 }
 
 

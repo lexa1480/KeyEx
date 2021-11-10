@@ -126,9 +126,7 @@ inline bool		CClnKeyEx::Open( const char* pKeyName, bool bCreate )
 {
     bool bRes = false;
     const std::string c_strPrevPath = GetKeyPath();
-    this->Close();
     NPLUG_RUN_IF_METHOD( bRes = ( m_pInterface->OpenKey( pKeyName, bCreate ) != 0 ) );
-    m_pInterface->CloseKey();
     if (!bRes) // restore key
         NPLUG_RUN_IF_METHOD( ( m_pInterface->OpenKey( c_strPrevPath.c_str(), false ) != 0 ) );
     return bRes;
@@ -226,13 +224,12 @@ inline CClnKeyEx		CClnKeyEx::GetSubKey( const char* pSubKeyName, bool bCreate ) 
 inline CClnKeyEx CClnKeyEx::GetParent() const
 {
     CClnKeyEx parentKey(this->Clone());
-    this->m_pInterface->CloseKey();
     std::string strKeyPath = this->GetKeyPath();
     strKeyPath = strKeyPath.substr(0, strKeyPath.rfind("/"));
     parentKey.Open(strKeyPath.c_str(), false);
     return parentKey;
 }
-/*
+
 inline unsigned	CClnKeyEx::GetValuesCount() const
 {
     NDword dwCount = 0;
@@ -272,6 +269,7 @@ inline bool		CClnKeyEx::DeleteAllValues()
     NPLUG_RUN_IF_METHOD( bRes = ( m_pInterface->DeleteAllValues() != 0 ) );
     return bRes;
 }
+
 inline bool		CClnKeyEx::GetValue( const char* pValueName, char* pBuf, unsigned& dwBufSize ) const
 {
     bool bRes = false;
@@ -310,7 +308,7 @@ inline bool		CClnKeyEx::GetValue( const char* pValueName, std::string& str ) con
     }
     return bRes;
 }
-*/
+
 template<typename T>
 inline bool		CClnKeyEx::GetValue( const char* pValueName, T& tData ) const
 {
@@ -373,7 +371,7 @@ inline bool	CClnKeyEx::GetValue( LPCNStr pValueName, std::vector<std::string>& v
     }
     return bRes;
 }
-/*
+
 inline bool		CClnKeyEx::SetValue( const char* pValueName, const char* pBuf, unsigned dwBufSize )
 {
     if( !pBuf )
@@ -391,7 +389,7 @@ inline bool		CClnKeyEx::SetValue( const char* pValueName, const char* pBuf, unsi
     NPLUG_RUN_IF_METHOD( bRes = ( m_pInterface->SetValue( pValueName, pBuf, dwBufSize ) != 0 ) );
     return bRes;
 }
-*/
+
 inline bool		CClnKeyEx::SetValue( const char* pValueName, const std::string& str )
 {
     ptrdiff_t pdtBufSize = ( str.end() > str.begin() ) ? ( str.end() - str.begin() ) : 0;

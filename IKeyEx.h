@@ -25,13 +25,13 @@ struct IKeyEx : public IBaseInterface
     virtual NBool	DeleteSubKey( LPCNStr pSubKeyName ) = 0;
     virtual NBool	DeleteAllSubKeys() = 0;
     // values
-//    virtual NBool	GetValuesCount( NDword& dwCount ) = 0;
-//    virtual NBool	GetValueName( NDword dwIdx, NChar* pBuf, NDword& dwBufSize ) = 0;
-//    virtual NBool	IsValue( LPCNStr pValueName ) = 0;
-//    virtual NBool	DeleteValue( LPCNStr pValueName ) = 0;
-//    virtual NBool	DeleteAllValues() = 0;
-//    virtual NBool	GetValue( LPCNStr pValueName, NChar* pBuf, NDword& dwBufSize ) = 0;
-//    virtual NBool	SetValue( LPCNStr pValueName, LPCNStr pBuf, NDword dwBufSize ) = 0;
+    virtual NBool	GetValuesCount( NDword& dwCount ) = 0;
+    virtual NBool	GetValueName( NDword dwIdx, NChar* pBuf, NDword& dwBufSize ) = 0;
+    virtual NBool	IsValue( LPCNStr pValueName ) = 0;
+    virtual NBool	DeleteValue( LPCNStr pValueName ) = 0;
+    virtual NBool	DeleteAllValues() = 0;
+    virtual NBool	GetValue( LPCNStr pValueName, NChar* pBuf, NDword& dwBufSize ) = 0;
+    virtual NBool	SetValue( LPCNStr pValueName, LPCNStr pBuf, NDword dwBufSize ) = 0;
     // attributes
 //    virtual NBool	GetAttrCount( NDword& dwCount ) = 0;
 //    virtual NBool	GetAttrName( NDword dwIdx, NChar* pBuf, NDword& dwBufSize ) = 0;
