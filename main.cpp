@@ -125,7 +125,6 @@ void CheckValues( CClnKeyEx& key )
     std::string sValName;
     ASSERT_FALSE( key.GetValueName(1000, sValName ) );
     ASSERT_TRUE( key.GetValueName(0, sValName ) );
-
     string sVal;
     ASSERT_TRUE( key.IsValue( c_szValStr ) );
     ASSERT_TRUE( key.GetValue( c_szValStr, sVal ) );
@@ -146,7 +145,7 @@ void CheckValues( CClnKeyEx& key )
     std::vector<std::string> vVal;
     ASSERT_TRUE( key.IsValue( c_szValVect ) );
     ASSERT_TRUE( key.GetValue( c_szValVect, vVal ) );
-    EXPECT_PRED3( IsNegative, vVal.size(), vVal[0], vVal[1] );
+    ASSERT_PRED3( IsNegative, vVal.size(), vVal[0], vVal[1] );
     ASSERT_TRUE( key.GetValue( c_szValEmpty, vVal ) );
     ASSERT_EQ( 0, vVal.size() );
     // enumeration
@@ -187,7 +186,24 @@ int main(int argc, char *argv[])
 {
     testing::InitGoogleTest(&argc, argv);
 
-    return RUN_ALL_TESTS();
+    //Пример проблемы с Open. После 198 строки CClnKeyEx key2  теперь ссылается на обнуленный нод потому что нет возможности препеприсвоить новый CConKeyEx лежащий теперь в key4  и древе.Обращение к key2 вызовет ошибку, так как все поля его CConKEyEx, равны "" или NULL
+    /*CClnKeyEx key(CConKeyEx::CreateObj());
+
+    CClnKeyEx key1 = key.GetSubKey("1", true);
+    CClnKeyEx key2 = key1.GetSubKey("2", true);
+    CClnKeyEx key3 = key2.GetSubKey("3", true);
+    CClnKeyEx key4 = key3.GetSubKey("4", true);
+    CClnKeyEx key5 = key4.GetSubKey("5", true);
+
+    key4.Open("/1/2", false);
+    key4.GetSubKey("New Node for key4", true);
+
+    std::cout << key.GetSubKey(0).GetSubKey(0).GetKeyPath() << " " << key.GetSubKey(0).GetSubKey(0).GetSubKey(0).GetKeyPath() << " " << key.GetSubKey(0).GetSubKey(0).GetSubKey(1).GetKeyPath() << std::endl;
+    std::cout << key4.GetKeyPath() << " " << key4.GetSubKey(0).GetKeyPath() << " " << key4.GetSubKey(1).GetKeyPath() << std::endl;*/
+
+
+
+    return RUN_ALL_TESTS();//RUN_ALL_TESTS()
 }
 
 

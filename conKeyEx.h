@@ -12,15 +12,6 @@
 #include <iostream>
 #include <map>
 
-struct cmp_str
-{
-   bool operator()(char const *a, char const *b) const
-   {
-      return std::strcmp(a, b) < 0;
-   }
-};
-
-
 namespace nplug
 {
 
@@ -31,7 +22,7 @@ protected:
     std::string				m_sFullPath;
     std::vector<CClnKeyEx>  m_vClnSub;
     CConKeyEx*              m_pConKeyHead;
-    std::map<const char*, const char*, cmp_str> m_map;
+    std::map<std::string, std::string> m_map;
 
     CConKeyEx()
     {
@@ -341,15 +332,14 @@ inline NBool	CConKeyEx::GetValueName( NDword dwIdx, NChar* pBuf, NDword& dwBufSi
 {
     NBool bRes = false;
 
-    if(m_map.size() >= dwIdx)
+    if(dwIdx >= m_map.size())
         return false;
 
-    std::map<const char*, const char*, cmp_str> :: iterator it;
+    std::map<std::string, std::string> :: iterator it = m_map.begin();
     for(int i = 0; i < (int)dwIdx; i++)
         it++;
 
-    std::string strValueName;
-    strValueName = it->first;
+    std::string strValueName = it->first;
     unsigned uDataSize = (NDword)strValueName.length()+1;
     if( dwBufSize >= uDataSize )
     {
@@ -367,21 +357,17 @@ inline NBool	CConKeyEx::GetValueName( NDword dwIdx, NChar* pBuf, NDword& dwBufSi
 
 inline NBool	CConKeyEx::IsValue( LPCNStr pValueName )
 {
-    std::map<const char*, const char*, cmp_str> :: iterator it;
-    it = m_map.find(pValueName);
-    if( it == m_map.end() )
+    if( m_map.find(pValueName) == m_map.end() )
         return false;
     return true;
 }
 
 inline NBool	CConKeyEx::DeleteValue( LPCNStr pValueName )
 {
-    std::map<const char*, const char*, cmp_str> :: iterator it;
-    it = m_map.find(pValueName);
-    if( it == m_map.end() )
+    if( m_map.find(pValueName) == m_map.end() )
         return false;
 
-    m_map.erase(it);
+    m_map.erase(pValueName);
     return true;
 }
 
@@ -393,14 +379,11 @@ inline NBool	CConKeyEx::DeleteAllValues()
 
 inline NBool	CConKeyEx::GetValue( LPCNStr pValueName, NChar* pBuf, NDword& dwBufSize )
 {
-    std::string strData;
     NBool bRes = false;
-    std::map<const char*, const char*, cmp_str> :: iterator it;
-    it = m_map.find(pValueName);
 
-    if( it != m_map.end() )
+    if( m_map.find(pValueName) != m_map.end() )
     {
-        strData = it->second;
+        std::string strData = m_map[pValueName];
         if( strData.empty() )
         {
             if( pBuf )
@@ -427,7 +410,8 @@ inline NBool	CConKeyEx::GetValue( LPCNStr pValueName, NChar* pBuf, NDword& dwBuf
 
 inline NBool    CConKeyEx::SetValue( LPCNStr pValueName, LPCNStr pBuf, NDword dwBufSize )
 {
-    m_map.insert(std::make_pair(pValueName, pBuf));
+    std::string sResult(pBuf,dwBufSize);
+    m_map[pValueName] = sResult;
     return true;
 }
 
