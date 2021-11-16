@@ -1,7 +1,7 @@
 #ifndef CONKEYEX_H
 #define CONKEYEX_H
 
-#include <IKeyEx.h>
+#include <nplug/IKey.h>
 #include <nplug/clnMap.h>
 #include <nplug/conBaseInterface.h>
 #include <cstddef>
@@ -15,7 +15,7 @@
 namespace nplug
 {
 
-class CConKeyEx : public CConBaseInterface < IKeyEx >
+class CConKeyEx : public CConBaseInterface < IKey >
 {
 protected:
     std::string				m_sName;
@@ -51,8 +51,8 @@ public:
     virtual NBool	IsOpen(){return true;}
     virtual NBool	IsChanged(){return false;}
     virtual NBool	GetSubKeysCount( NDword& dwCount );
-    virtual NBool	GetSubKeyByIdx( NDword dwIdx, IKeyEx*& pObj );
-    virtual NBool	GetSubKey( LPCNStr pSubKeyName, IKeyEx*& pObj, NBool bCreate );
+    virtual NBool	GetSubKeyByIdx( NDword dwIdx, IKey*& pObj );
+    virtual NBool	GetSubKey( LPCNStr pSubKeyName, IKey*& pObj, NBool bCreate );
     virtual NBool	GetSubKeyName( NDword dwIdx, NChar* pBuf, NDword& dwBufSize );
     virtual NBool	IsSubKey( LPCNStr pSubKeyName );
     virtual NBool	DeleteSubKey( LPCNStr pSubKeyName );
@@ -66,6 +66,15 @@ public:
     virtual NBool	DeleteAllValues();
     virtual NBool	GetValue( LPCNStr pValueName, NChar* pBuf, NDword& dwBufSize );
     virtual NBool	SetValue( LPCNStr pValueName, LPCNStr pBuf, NDword dwBufSize );
+
+    //attrinuts
+    virtual NBool	GetAttrCount( NDword& dwCount );
+    virtual NBool	GetAttrName( NDword dwIdx, NChar* pBuf, NDword& dwBufSize );
+    virtual NBool	IsAttr( LPCNStr pAttrName );
+    virtual NBool	DeleteAttr( LPCNStr pAttrName );
+    virtual NBool	DeleteAllAttrs();
+    virtual NBool	GetAttr( LPCNStr pAttrName, NChar* pBuf, NDword& dwBufSize );
+    virtual NBool	SetAttr( LPCNStr pAttrName, LPCNStr pBuf, NDword dwBufSize );
 
     ////// CConKeyEx	//////////
 
@@ -105,7 +114,7 @@ inline NBool CConKeyEx::OpenKey( LPCNStr pKeyName, NBool bCreate )
     CConKeyEx* pParentThis = m_pConKeyHead;
     CConKeyEx* pParentNew = m_pConKeyHead;
     CConKeyEx* pNew = m_pConKeyHead;
-    IKeyEx* pIKeySwap;
+    IKey* pIKeySwap;
 
     sOpenPath = this->m_sFullPath;
     int indx = sOpenPath.find("/");
@@ -208,7 +217,7 @@ inline NBool	CConKeyEx::GetSubKeysCount( NDword& dwCount )
     return true;
 }
 
-inline NBool	CConKeyEx::GetSubKeyByIdx( NDword dwIdx, IKeyEx*& pObj )
+inline NBool	CConKeyEx::GetSubKeyByIdx( NDword dwIdx, IKey*& pObj )
 {
     if(dwIdx < m_vClnSub.size())
     {
@@ -219,7 +228,7 @@ inline NBool	CConKeyEx::GetSubKeyByIdx( NDword dwIdx, IKeyEx*& pObj )
     return false;
 }
 
-inline NBool	CConKeyEx::GetSubKey( LPCNStr pSubKeyName, IKeyEx*& pObj, NBool bCreate )
+inline NBool	CConKeyEx::GetSubKey( LPCNStr pSubKeyName, IKey*& pObj, NBool bCreate )
 {
     if( pSubKeyName == 0 || ( pSubKeyName[0] == '\x0' ) )
     {
@@ -247,7 +256,7 @@ inline NBool	CConKeyEx::GetSubKey( LPCNStr pSubKeyName, IKeyEx*& pObj, NBool bCr
         key.Attach( pConKeyEx );
 
         m_vClnSub.push_back(key);
-        pObj = static_cast<IKeyEx*>( pConKeyEx );
+        pObj = static_cast<IKey*>( pConKeyEx );
         return true;
     }
 
@@ -415,6 +424,14 @@ inline NBool    CConKeyEx::SetValue( LPCNStr pValueName, LPCNStr pBuf, NDword dw
     return true;
 }
 
+//attributes
+inline NBool	CConKeyEx::GetAttrCount( NDword& dwCount ){ return false; }
+inline NBool	CConKeyEx::GetAttrName( NDword dwIdx, NChar* pBuf, NDword& dwBufSize ){ return false; }
+inline NBool	CConKeyEx::IsAttr( LPCNStr pAttrName ){ return false; }
+inline NBool	CConKeyEx::DeleteAttr( LPCNStr pAttrName ){ return false; }
+inline NBool	CConKeyEx::DeleteAllAttrs(){ return false; }
+inline NBool	CConKeyEx::GetAttr( LPCNStr pAttrName, NChar* pBuf, NDword& dwBufSize ){ return false; }
+inline NBool	CConKeyEx::SetAttr( LPCNStr pAttrName, LPCNStr pBuf, NDword dwBufSize ){ return false; }
 
 /// CConKeyEx
 inline void CConKeyEx::SetName( const char* pPath, const char* pName )

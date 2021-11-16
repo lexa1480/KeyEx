@@ -1,7 +1,7 @@
 #ifndef CLNKEYEX_H
 #define CLNKEYEX_H
 
-#include <IKeyEx.h>
+#include <nplug/IKey.h>
 #include <nplug/clnBaseInterface.h>
 #include <nplug/clnMap.h>
 #include <nplug/conMap.h>
@@ -14,7 +14,7 @@ namespace nplug
 
 ///////////////////////////////////////////////////////////////////////////////
 // CClnKey
-class CClnKeyEx : public CClnBaseInterface < IKeyEx >
+class CClnKeyEx : public CClnBaseInterface < IKey >
 {
 ////////// Attributes:
 public:
@@ -26,13 +26,13 @@ public:
     {
         SetClientName( "clnKey" );
     }
-    CClnKeyEx( IKeyEx* pInterface )
-        :CClnBaseInterface < IKeyEx >(pInterface)
+    CClnKeyEx( IKey* pInterface )
+        :CClnBaseInterface < IKey >(pInterface)
     {
         SetClientName( "clnKey" );
     }
     CClnKeyEx( const CClnKeyEx& clnFrom )
-        :CClnBaseInterface < IKeyEx >(clnFrom.GetIF())
+        :CClnBaseInterface < IKey >(clnFrom.GetIF())
     {
         SetClientName( "clnKey" );
     }
@@ -114,8 +114,8 @@ public:
 // CClnKey inlines
 inline CClnKeyEx	CClnKeyEx::Clone() const
 {
-    IKeyEx* pCloneKey = NULL;
-    NPLUG_RUN_IF_METHOD( pCloneKey = reinterpret_cast<IKeyEx*>(m_pInterface->QueryInterface(c_szPluginIdKey)) );
+    IKey* pCloneKey = NULL;
+    NPLUG_RUN_IF_METHOD( pCloneKey = reinterpret_cast<IKey*>(m_pInterface->QueryInterface(c_szPluginIdKey)) );
     return pCloneKey;
 }
 inline void		CClnKeyEx::Clear()
@@ -200,10 +200,10 @@ inline CClnKeyEx		CClnKeyEx::GetSubKey( unsigned uIndex ) const
     CClnKeyEx key;
     if( IsOpen() )
     {
-        IKeyEx* pIKeyEx = 0;
-        NPLUG_RUN_IF_METHOD( m_pInterface->GetSubKeyByIdx( uIndex, pIKeyEx ) );
-        if( pIKeyEx )
-            key.Attach( pIKeyEx );
+        IKey* pIKey = 0;
+        NPLUG_RUN_IF_METHOD( m_pInterface->GetSubKeyByIdx( uIndex, pIKey ) );
+        if( pIKey )
+            key.Attach( pIKey );
     }
     return key;
 }
@@ -213,10 +213,10 @@ inline CClnKeyEx		CClnKeyEx::GetSubKey( const char* pSubKeyName, bool bCreate ) 
     CClnKeyEx key;
     if( IsOpen() )
     {
-        IKeyEx* pIKeyEx = 0;
-        NPLUG_RUN_IF_METHOD( m_pInterface->GetSubKey( pSubKeyName, pIKeyEx, bCreate ) );
-        if( pIKeyEx )
-            key.Attach( pIKeyEx );
+        IKey* pIKey = 0;
+        NPLUG_RUN_IF_METHOD( m_pInterface->GetSubKey( pSubKeyName, pIKey, bCreate ) );
+        if( pIKey )
+            key.Attach( pIKey );
     }
     return key;
 }
@@ -412,7 +412,7 @@ inline bool	CClnKeyEx::SetValue( LPCNStr pValueName, const std::vector<T>& vData
     ss << '\x0';
     return SetValue( pValueName, ss.str() );
 }
-/*
+
 inline unsigned	CClnKeyEx::GetAttrsCount() const
 {
     NDword      dwCount = 0;
@@ -467,7 +467,7 @@ inline bool		CClnKeyEx::GetAttr( const char* pAttrName, std::string& str ) const
     }
     return bRes;
 }
-inline bool		CClnKeyEx::SetAttr( const char* pAttrName, const char* pBuf, unsigned dwBufSize/* = 0 *//*)// Последний /* Fake
+inline bool		CClnKeyEx::SetAttr( const char* pAttrName, const char* pBuf, unsigned dwBufSize/* = 0 */)
 {
     if( !pBuf )
         return false;
@@ -484,7 +484,7 @@ inline bool		CClnKeyEx::SetAttr( const char* pAttrName, const char* pBuf, unsign
     NPLUG_RUN_IF_METHOD( bRes = ( m_pInterface->SetAttr( pAttrName, pBuf, dwBufSize ) != 0 ) );
     return bRes;
 }
-*/
+
 
 inline std::string CClnKeyEx::GetKeyName() const
 {

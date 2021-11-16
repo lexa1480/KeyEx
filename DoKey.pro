@@ -18,6 +18,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 LIBS += -lgtest
 
 HEADERS += \
-    IKeyEx.h \
+    ../../../../nitasoft/users/_Common/Include/nplug/IKey.h \
     clnKeyEx.h \
     conKeyEx.h
