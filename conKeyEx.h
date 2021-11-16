@@ -4,12 +4,10 @@
 #include <nplug/IKey.h>
 #include <nplug/clnMap.h>
 #include <nplug/conBaseInterface.h>
-#include <cstddef>
 #include <cstring>
 #include <clnKeyEx.h>
 #include <vector>
 
-#include <iostream>
 #include <map>
 
 namespace nplug
@@ -425,13 +423,13 @@ inline NBool    CConKeyEx::SetValue( LPCNStr pValueName, LPCNStr pBuf, NDword dw
 }
 
 //attributes
-inline NBool	CConKeyEx::GetAttrCount( NDword& dwCount ){ return false; }
-inline NBool	CConKeyEx::GetAttrName( NDword dwIdx, NChar* pBuf, NDword& dwBufSize ){ return false; }
-inline NBool	CConKeyEx::IsAttr( LPCNStr pAttrName ){ return false; }
-inline NBool	CConKeyEx::DeleteAttr( LPCNStr pAttrName ){ return false; }
+inline NBool	CConKeyEx::GetAttrCount( NDword& /*dwCount*/ ){ return false; }
+inline NBool	CConKeyEx::GetAttrName( NDword /*dwIdx*/, NChar* /*pBuf*/, NDword& /*dwBufSize*/ ){ return false; }
+inline NBool	CConKeyEx::IsAttr( LPCNStr /*pAttrName*/ ){ return false; }
+inline NBool	CConKeyEx::DeleteAttr( LPCNStr /*pAttrName*/ ){ return false; }
 inline NBool	CConKeyEx::DeleteAllAttrs(){ return false; }
-inline NBool	CConKeyEx::GetAttr( LPCNStr pAttrName, NChar* pBuf, NDword& dwBufSize ){ return false; }
-inline NBool	CConKeyEx::SetAttr( LPCNStr pAttrName, LPCNStr pBuf, NDword dwBufSize ){ return false; }
+inline NBool	CConKeyEx::GetAttr( LPCNStr /*pAttrName*/, NChar* /*pBuf*/, NDword& /*dwBufSize*/ ){ return false; }
+inline NBool	CConKeyEx::SetAttr( LPCNStr /*pAttrName*/, LPCNStr /*pBuf*/, NDword /*dwBufSize*/ ){ return false; }
 
 /// CConKeyEx
 inline void CConKeyEx::SetName( const char* pPath, const char* pName )

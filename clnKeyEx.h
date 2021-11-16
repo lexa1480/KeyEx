@@ -7,7 +7,7 @@
 #include <nplug/conMap.h>
 
 #include <string.h>
-#include <vector>
+
 
 namespace nplug
 {
@@ -128,7 +128,7 @@ inline bool		CClnKeyEx::Open( const char* pKeyName, bool bCreate )
     const std::string c_strPrevPath = GetKeyPath();
     NPLUG_RUN_IF_METHOD( bRes = ( m_pInterface->OpenKey( pKeyName, bCreate ) != 0 ) );
     if (!bRes) // restore key
-        NPLUG_RUN_IF_METHOD( ( m_pInterface->OpenKey( c_strPrevPath.c_str(), false ) != 0 ) );
+        NPLUG_RUN_IF_METHOD( m_pInterface->OpenKey( c_strPrevPath.c_str(), false ) );
     return bRes;
 }
 
